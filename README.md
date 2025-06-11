@@ -19,11 +19,9 @@ Before running the automation scripts, ensure you have the following installed a
   Used to configure the Minecraft server on the EC2 instance.  
   [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-- **jq** (optional but recommended)  
-  Command-line JSON processor, useful for scripting.  
-  [Install jq](https://stedolan.github.io/jq/download/)
-
-- **bash** (or compatible shell)  
+- **bash**
   Required to run the automation scripts.
 
 ### AWS Setup
+
+you need a env.sh file :3

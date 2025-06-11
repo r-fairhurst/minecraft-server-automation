@@ -34,4 +34,4 @@ sleep 70
 echo 
 
 # Done
-echo -e "\n✅ Your Minecraft server is up and running at: $INSTANCE_IP:25565"
+echo -e "\n Your Minecraft server is up and running at: $INSTANCE_IP:25565"
