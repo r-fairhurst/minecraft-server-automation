@@ -1,0 +1,70 @@
+- name: Configure Minecraft Server with PaperMC and Amazon Corretto 21
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+
+  vars:
+    minecraft_dir: /opt/minecraft
+    papermc_build_url: https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds/232/downloads/paper-1.21.4-232.jar
+    java_path: /usr/lib/jvm/java-21-amazon-corretto/bin/java
+
+  tasks:
+    - name: Download Amazon Corretto 21
+      get_url:
+        url: https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.rpm
+        dest: /tmp/amazon-corretto-21.rpm
+    - name: Install Amazon Corretto 21
+      yum:
+        name: /tmp/amazon-corretto-21.rpm
+        state: present
+
+    - name: Create Minecraft server directory
+      file:
+        path: "{{ minecraft_dir }}"
+        state: directory
+        mode: '0755'
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Download PaperMC server jar
+      get_url:
+        url: "{{ papermc_build_url }}"
+        dest: "{{ minecraft_dir }}/paper.jar"
+        mode: '0755'
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Accept EULA
+      copy:
+        dest: "{{ minecraft_dir }}/eula.txt"
+        content: "eula=true\n"
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Create systemd service for PaperMC
+      copy:
+        dest: /etc/systemd/system/papermc.service
+        content: |
+          [Unit]
+          Description=PaperMC Minecraft Server
+          After=network.target
+
+          [Service]
+          WorkingDirectory={{ minecraft_dir }}
+          ExecStart={{ java_path }} -Xmx1536M -Xms1024M -jar paper.jar nogui
+          Restart=on-failure
+          User=ec2-user
+          Nice=1
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start PaperMC service
+      systemd:
+        name: papermc
+        enabled: yes
+        state: started

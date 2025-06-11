@@ -1,0 +1,24 @@
+# Ignore environment files with creds
+env.sh
+*.env
+
+# Terraform state files and backups
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform/
+
+# Terraform crash logs
+crash.log
+
+# Ansible cache and logs (if any)
+*.retry
+ansible/host_ip.txt
+
+# Linux system files
+*~
+
+# Log files
+*.log
+
+# Editor files
+.vscode/
