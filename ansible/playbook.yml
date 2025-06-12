@@ -14,9 +14,12 @@
         url: https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.rpm
         dest: /tmp/amazon-corretto-21.rpm
     - name: Install Amazon Corretto 21
-      yum:
-        name: /tmp/amazon-corretto-21.rpm
-        state: present
+      command: yum install -y /tmp/amazon-corretto-21.rpm
+      args:
+        creates: "{{ java_path }}"
+      register: corretto_install
+      changed_when: "'Nothing to do' not in corretto_install.stderr | default('')"
+
 
     - name: Create Minecraft server directory
       file:

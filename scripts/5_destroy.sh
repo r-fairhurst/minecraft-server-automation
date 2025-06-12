@@ -3,7 +3,7 @@ set -e
 
 # Load environment variables
 if [ ! -f ./env.sh ]; then
-  echo "❌ Missing env.sh file. Please create it with your AWS credentials."
+  echo "Missing env.sh file. Please create it with your AWS credentials."
   exit 1
 fi
 

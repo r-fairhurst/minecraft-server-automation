@@ -29,9 +29,9 @@ sleep 10
 
 # Step 4: Run nmap to verify Minecraft server is up
 echo "Verifying Minecraft server with nmap...setup might take a minute or two, if the server is not up yet, please wait a bit longer."
-sleep 70
 ./scripts/4_check_connection.sh
 echo 
 
 # Done
+INSTANCE_IP=$(cat ansible/host_ip.txt)
 echo -e "\n Your Minecraft server is up and running at: $INSTANCE_IP:25565"

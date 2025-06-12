@@ -1,11 +1,16 @@
 # Ignore environment files with creds
 env.sh
+minecraft-key.pem
 *.env
 
 # Terraform state files and backups
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform/
+
+
+.ansible
+
 
 # Terraform crash logs
 crash.log

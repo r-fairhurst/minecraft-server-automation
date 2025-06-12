@@ -2,26 +2,45 @@
 This repo has all the code and config needed to automatically, configure, and deploy a Minecraft server on AWS
 
 ## Requirements
-
 Before running the automation scripts, ensure you have the following installed and configured on your local machine or VM:
 
 ### Tools
+- Terraform v1.21.1
+- aws-cli/1.22.34
+- Ansible 2.10.8
+- Bash 5.1.16
+- nmap 7.8
 
-- **Terraform** (version 1.0 or higher)  
-  Used for infrastructure provisioning on AWS.  
-  [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+### AWS Setup/Credendtials required
+ - env.sh
+    - has all your AWS creds witin the file EX:
+    ```bash
+    export AWS_ACCESS_KEY_ID=""
+    export AWS_SECRET_ACCESS_KEY=""
+    export AWS_SESSION_TOKEN=""
+    ```
+no other configuration is required, the file 'run_all.sh' will load your creds, create an ssh file, and do all the setup for you.
 
-- **AWS CLI** (version 2 recommended)  
-  Used to interact with AWS services and manage credentials.  
-  [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+## How to run
+1. Ensure you are in the home directory of the repo, or 'minecraft-server-automation' directory
+2. Make sure you have all the tools and credentials configured correctly
+3. Run the file 'run_all.sh' with 
+  ```
+  sudo ./run_all.sh
+  ```
+  or
 
-- **Ansible** (version 2.9 or higher)  
-  Used to configure the Minecraft server on the EC2 instance.  
-  [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+  ```
+  bash ./run_all.sh
+  ```
+4. Wait for the executable to finish, you will not have to enter in anything
+5. the final output should be a nmap scan with a open port to your minecraft server
 
-- **bash**
-  Required to run the automation scripts.
+## How to destroy resources
+> WARNING: THIS WILL REMOVE ALL YOUR MINECRAFT STUFF
+1. run the 5th script in the scripts folder
+  ```
+  ./scripts/5_destroy.sh
+  ```
 
-### AWS Setup
-
-you need a env.sh file :3
+## Pipeline of installation
